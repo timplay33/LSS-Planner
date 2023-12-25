@@ -1,35 +1,15 @@
 <script lang="ts">
-	import BuildingDisplay from './BuildingDisplay.svelte';
-	import VehicleDisplay from './VehicleDisplay.svelte';
+	import Header from './Header.svelte';
 	export let data;
 </script>
 
-<div class="m-5">
-	<table>
-		<thead class="">
-			<th class="text-start text-2xl">Fahrzeuge</th>
-			<th class="flex flex-col">
-				<span>Personnel</span>
-				<span class="opacity-50">max | assigned</span>
-			</th>
-		</thead>
-		<tbody>
-			{#each data.vehicles as vehicle}
-				<VehicleDisplay {vehicle} vehicleDictionary={data.vehicleDictionary} />
-			{/each}
-		</tbody>
-	</table>
-</div>
+<Header />
 
-<div class="m-5">
-	<table>
-		<thead class="">
-			<th class="text-start text-2xl">Wachen</th>
-		</thead>
-		<tbody>
-			{#each data.buildings as building}
-				<BuildingDisplay {building} buildingDictionary={data.buildingDictionary} />
-			{/each}
-		</tbody>
-	</table>
+<div class="grid">
+	<h2 class="text-2xl">Welcome to the LSS-Planner</h2>
+	<div class="m-4 w-52 border-2">
+		<h3 class="text-xl">Algemeine Daten</h3>
+		<div><span>Fahrzeuge: {data.vehicles.length}</span></div>
+		<div><span>Gebäude: {data.buildings.length}</span></div>
+	</div>
 </div>

@@ -36,6 +36,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@lss-manager/missionchief-type-definitions": "^0.0.3",
 		"@supabase/supabase-js": "^2.39.1"
 	}
 }

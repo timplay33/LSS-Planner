@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	export let vehicle;
 	export let vehicleDictionary;
 </script>

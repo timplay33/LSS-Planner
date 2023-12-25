@@ -8,3 +8,13 @@ export const getVehicleDictionary = async () => {
         console.error(err);
     }
 };
+
+export const getBuildingDictionary = async () => {
+    try {
+        const res = await fetch("http://localhost:5173/buildings.json");
+        const resJson= await res.json();
+        return resJson;
+    }catch (err) {
+        console.error(err);
+    }
+};

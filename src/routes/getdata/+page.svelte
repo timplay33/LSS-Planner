@@ -4,9 +4,9 @@
 </script>
 
 <Header />
-<h1>Getting Data...</h1>
+<h2 class="text-2xl">Getting Data...</h2>
 {#if data.error != null}
-	<span>{data.error}</span>
+	<span class="text-red-600">{data.error}</span>
 {:else}
-	<span>data Fetched Successfully</span>
+	<span class="text-green-500">data Fetched Successfully</span>
 {/if}

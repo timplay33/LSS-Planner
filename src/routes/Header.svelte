@@ -1,7 +1,11 @@
-<header class="flex w-screen">
-	<h1 class="w-1/5"><a href="/">LSS-Planner</a></h1>
-	<ul class="flex w-4/5 items-end gap-5">
-		<li><a href="/vehicles">Fahrzeuge</a></li>
-		<li><a href="/buildings">Gebäude</a></li>
-	</ul>
-</header>
+<div class="navbar">
+	<div class="flex-1">
+		<a class="btn btn-ghost text-base-content text-xl normal-case" href="/">LSS-Planner</a>
+	</div>
+	<div class="flex-none">
+		<ul class="menu menu-horizontal px-1">
+			<li><a class="text-lg" href="/vehicles">Fahrzeuge</a></li>
+			<li><a class="text-lg" href="/buildings">Gebäude</a></li>
+		</ul>
+	</div>
+</div>

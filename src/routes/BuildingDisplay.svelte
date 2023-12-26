@@ -9,33 +9,33 @@
 </script>
 
 <tr class="">
-	<td class="border-2 p-1">
+	<td class="border-neutral border-2 p-1">
 		<h5 class="">{building.caption}</h5>
-		<span class=" text-xs opacity-50"
+		<span class=" text-xs opacity-70"
 			>({#if building.small_building}
 				kleine
 			{/if}{buildingDictionary[building.building_type].caption})</span
 		>{#if !building.enabled}<span class="bg-black px-1 text-sm text-white">6</span>{/if}
 	</td>
 	{#if building.personal_count > building.personal_count_target}
-		<td class="border-2 text-center text-red-700"
+		<td class="text-warning border-neutral border-2 text-center"
 			>{building.personal_count ?? 0} | {building.personal_count_target ?? 0}
 		</td>
 	{:else}
-		<td class="border-2 text-center"
+		<td class="border-neutral border-2 text-center"
 			>{building.personal_count ?? 0} | {building.personal_count_target ?? 0}
 		</td>
 	{/if}
-	<td class="border-2 p-1"
+	<td class="border-neutral border-2 p-1"
 		>{#each extentions as extension}
 			<span>{extension.caption} </span>
 			{#if !extension.enabled}
-				<span class="bg-black px-1 text-sm text-white">6</span>
+				<span class="bg-b-fms-6 text-t-fms-6 px-1 text-sm">6</span>
 			{/if}
 			<br />
 		{/each}
 	</td>
-	<td class="border-2 p-1"
+	<td class="border-neutral border-2 p-1"
 		>{#each extentionsDictionary as extension}
 			<span>{extension.caption} <br /> </span>
 		{/each}

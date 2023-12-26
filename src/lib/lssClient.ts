@@ -1,9 +1,9 @@
-import { PRIVATE_COOKIE} from "$env/static/private";
+import { PRIVATE_SESSION_ID} from "$env/static/private";
 
 const options = {
     method: 'GET',
     headers: {
-        Cookie: PRIVATE_COOKIE,
+        Cookie: "_session_id="+PRIVATE_SESSION_ID,
     }
 };
 
@@ -16,7 +16,8 @@ export const getVehicles = async () => {
         const resJson= await res.json();
         return resJson;
     }catch (err) {
-        console.error(err);
+        //console.error(err);
+        return 1;
     }
 };
 const buildingEntpoint = "https://www.leitstellenspiel.de/api/buildings"
@@ -28,6 +29,7 @@ export const getBuildings = async () => {
         const resJson= await res.json();
         return resJson;
     }catch (err) {
-        console.error(err);
+        //console.error(err);
+        return 1;
     }
 };

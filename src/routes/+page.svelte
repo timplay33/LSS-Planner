@@ -1,5 +1,7 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	let show_sessionID = false;
+	$: type = show_sessionID ? 'text' : 'password';
+
 	import { vehicles, buildings, user } from './stores';
 	let NewSessionID = $user.session_id;
 	function SaveSessionID() {
@@ -8,6 +10,10 @@
 		user.set(NewUser);
 
 		location.reload(true);
+	}
+
+	function onInput(event) {
+		NewSessionID = event.target.value;
 	}
 </script>
 
@@ -28,11 +34,14 @@
 
 				<div class="join">
 					<input
-						type="text"
+						{type}
 						placeholder="Type your session ID here"
 						class="input input-bordered w-80"
-						bind:value={NewSessionID}
-					/>
+						value={NewSessionID}
+						on:input={onInput}
+					/><button class="btn" type="button" on:click={() => (show_sessionID = !show_sessionID)}
+						>{show_sessionID ? 'Hide' : 'Show'}</button
+					>
 					<button on:click={SaveSessionID} class="btn">Save</button>
 				</div>
 			</li>

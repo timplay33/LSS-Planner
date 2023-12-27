@@ -1,9 +1,9 @@
-import { PRIVATE_SESSION_ID} from "$env/static/private";
+import { PRIVATE_SESSION_ID } from "$env/static/private";
 
 const options = {
     method: 'GET',
     headers: {
-        Cookie: "_session_id="+PRIVATE_SESSION_ID,
+        Cookie: "_session_id="+ PRIVATE_SESSION_ID,
     }
 };
 

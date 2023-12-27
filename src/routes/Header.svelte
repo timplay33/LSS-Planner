@@ -1,6 +1,6 @@
 <div class="navbar">
 	<div class="flex-1">
-		<a class="btn btn-ghost text-base-content text-xl normal-case" href="/">LSS-Planner</a>
+		<a class="btn btn-ghost text-xl normal-case text-base-content" href="/">LSS-Planner</a>
 	</div>
 	<div class="flex-none">
 		<ul class="menu menu-horizontal px-1">

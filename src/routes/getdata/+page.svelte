@@ -21,17 +21,18 @@
 		const new_buildingDictionary = await res_buildingDictionary.json();
 		buildingDictionary.set(new_buildingDictionary);
 
-		const res_vehicles = await fetch('https://www.leitstellenspiel.de/api/vehicles', options);
-		const new_vehicles = await res_vehicles.json();
-		vehicles.set(new_vehicles);
+		if ($user.session_id != '') {
+			const res_vehicles = await fetch('/api/' + $user.session_id + '/vehicles');
+			const new_vehicles = await res_vehicles.json();
+			vehicles.set(new_vehicles);
 
-		const res_buildings = await fetch('https://www.leitstellenspiel.de/api/buildings', options);
-		const new_buildings = await res_buildings.json();
-		buildings.set(new_buildings);
+			const res_buildings = await fetch('/api/' + $user.session_id + '/buildings');
+			const new_buildings = await res_buildings.json();
+			buildings.set(new_buildings);
+		} else {
+			error = 'error: Please provide a session ID before fetching data.';
+		}
 	});
-	//} else {
-	//	error = 'Please provide Session ID before trying to fetch data';
-	//}
 </script>
 
 <h2 class="text-2xl">Getting Data...</h2>

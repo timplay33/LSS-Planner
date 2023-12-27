@@ -1,5 +1,3 @@
-import { PRIVATE_SESSION_ID } from "$env/static/private";
-
 const options = {
     method: 'GET',
     headers: {

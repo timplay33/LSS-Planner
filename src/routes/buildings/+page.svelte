@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { json } from '@sveltejs/kit';
 	import { buildingDictionary, buildings } from '../stores';
 
 	function sortExtensions(building) {
@@ -13,27 +12,23 @@
 		return extentionsDictionary;
 	}
 
-	const compare = (e1, e2) => e1.caption == e2.caption;
-
-	function compareExtensions(index, building) {
+	function isExtensionPurchased(building, extension) {
 		const purchasedExtensions = sortExtensions(building);
-		const availebleExtensions = sortExtensionsDictionary(building);
-		if (purchasedExtensions.length > 0 && availebleExtensions.length > 0) {
-			for (let i = 0; i < purchasedExtensions.length; i++) {
-				if (compare(purchasedExtensions[i], availebleExtensions[index])) {
-					console.log(
-						i,
-						index,
-						purchasedExtensions[i],
-						availebleExtensions[index],
-						compare(purchasedExtensions[i], availebleExtensions[index])
-					);
-					return true;
+		let purchased = false;
+		let i = 0;
+		if (purchasedExtensions.length > 0) {
+			while (i < purchasedExtensions.length) {
+				if (purchasedExtensions[i].caption == extension.caption) {
+					purchasedExtensions.shift();
+					purchased = true;
+					break;
 				}
+				i++;
 			}
-			return false;
+
+			return purchased;
 		}
-		return false;
+		return purchased;
 	}
 </script>
 
@@ -77,9 +72,9 @@
 							<br />
 						{/each}
 					</td>
-					<td class="border-2 border-neutral p-1"
-						>{#each sortExtensionsDictionary(building) as extension, index}
-							{#if compareExtensions(index, building)}
+					<td class="border-2 border-neutral p-1">
+						{#each sortExtensionsDictionary(building) as extension}
+							{#if isExtensionPurchased(building, extension)}
 								<span class="text-success"> {extension.caption} <br /> </span>
 							{:else}
 								<span class="text-error"> {extension.caption} <br /> </span>

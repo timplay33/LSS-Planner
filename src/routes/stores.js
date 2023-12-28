@@ -4,7 +4,7 @@ import { browser } from '$app/environment';
 
 let storedUser= {
     session_id: "",
-    credits: {},
+    credits: "",
 };
 if (browser) {
     if (localStorage.user != undefined) {

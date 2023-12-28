@@ -58,7 +58,7 @@
 			<li class="border-b-2 border-neutral p-2">
 				<h4>Session ID</h4>
 
-				<div class="join">
+				<div class="">
 					<input
 						{type}
 						placeholder="Type your session ID here"

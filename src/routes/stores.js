@@ -9,7 +9,7 @@ let storedUser= {
 if (browser) {
     if (localStorage.user != undefined) {
         storedUser = JSON.parse(localStorage.user);
-        if (storedUser.session_id != '') {
+        if (storedUser.session_id != '' && storedUser.credits.length <=2) {
 			const res_credits = await fetch('/api/' + storedUser.session_id + '/credits');
 			storedUser.credits =  await res_credits.json();
        }

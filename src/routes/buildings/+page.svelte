@@ -36,12 +36,21 @@
 	<table>
 		<thead class="">
 			<th class="text-start text-2xl">Wachen</th>
-			<th class="flex flex-col">
-				<span>Personnel</span>
-				<span class="w-24 text-xs opacity-50">count | target</span>
+			<th>
+				<div class="flex w-24 flex-col">
+					<span>Personnel</span>
+					<span class=" text-xs opacity-50">count | target</span>
+				</div>
 			</th>
-			<th class="">extensions</th>
-			<th class="">posible extensions</th>
+			<th>
+				<div class="flex flex-col items-center">
+					<span>extensions</span>
+					<span class=" text-xs opacity-50"
+						><span class="text-success">bought</span> |
+						<span class="text-error">available</span></span
+					>
+				</div>
+			</th>
 		</thead>
 		<tbody>
 			{#each $buildings as building}
@@ -63,15 +72,6 @@
 							>{building.personal_count ?? 0} | {building.personal_count_target ?? 0}
 						</td>
 					{/if}
-					<td class="border-2 border-neutral p-1"
-						>{#each sortExtensions(building) as extension}
-							<span>{extension.caption} </span>
-							{#if !extension.enabled}
-								<span class="bg-b-fms-6 px-1 text-sm text-t-fms-6">6</span>
-							{/if}
-							<br />
-						{/each}
-					</td>
 					<td class="border-2 border-neutral p-1">
 						{#each sortExtensionsDictionary(building) as extension}
 							{#if isExtensionPurchased(building, extension)}

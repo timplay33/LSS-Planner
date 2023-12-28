@@ -2,12 +2,17 @@ import { writable } from "svelte/store";
 import { browser } from '$app/environment';
 
 
-let storedUser= {session_id: ""};
+let storedUser= {
+    session_id: "",
+    credits: {},
+};
 if (browser) {
-    if (localStorage.user == undefined) {
-        //storedSessionID = await getVehicles()
-    }else {
+    if (localStorage.user != undefined) {
         storedUser = JSON.parse(localStorage.user);
+        if (storedUser.session_id != '') {
+			const res_credits = await fetch('/api/' + storedUser.session_id + '/credits');
+			storedUser.credits =  await res_credits.json();
+       }
     }   
 }
 export const user = writable(storedUser);

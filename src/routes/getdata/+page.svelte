@@ -22,6 +22,11 @@
 		buildingDictionary.set(new_buildingDictionary);
 
 		if ($user.session_id != '') {
+			let new_user = $user;
+			const res_credits = await fetch('/api/' + $user.session_id + '/credits');
+			new_user.credits = await res_credits.json();
+			user.set(new_user);
+
 			const res_vehicles = await fetch('/api/' + $user.session_id + '/vehicles');
 			const new_vehicles = await res_vehicles.json();
 			vehicles.set(new_vehicles);

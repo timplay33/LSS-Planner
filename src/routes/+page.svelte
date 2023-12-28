@@ -15,6 +15,9 @@
 	function onInput(event) {
 		NewSessionID = event.target.value;
 	}
+	function addSepDot(n: number) {
+		return n.toLocaleString();
+	}
 </script>
 
 <div class="">
@@ -22,8 +25,31 @@
 		<h2 class="text-2xl">Welcome to the LSS-Planner</h2>
 		<div class="m-4 w-52 border-2 border-neutral">
 			<h3 class="text-xl">Algemeine Daten</h3>
-			<div><span>Fahrzeuge: {$vehicles.length}</span></div>
-			<div><span>Gebäude: {$buildings.length}</span></div>
+			<p>Fahrzeuge: {$vehicles.length}</p>
+			<p>Gebäude: {$buildings.length}</p>
+		</div>
+		<div class="m-4 w-52 border-2 border-neutral">
+			<h3 class="text-xl">User</h3>
+			<div>
+				<p>
+					Name: {$user.credits.user_name}
+				</p>
+				<p>
+					Credits: {#if $user.credits.credits_user_current}{addSepDot(
+							$user.credits.credits_user_current
+						)}
+					{/if}
+				</p>
+				<p>
+					Total Credits: {#if $user.credits.credits_user_total}{addSepDot(
+							$user.credits.credits_user_total
+						)}
+					{/if}
+				</p>
+				<p>
+					Level: {$user.credits.user_level_title}
+				</p>
+			</div>
 		</div>
 	</div>
 	<div class="mt-96">

@@ -1,35 +1,6 @@
 <script lang="ts">
+	import { isExtensionPurchased, sortExtensionsDictionary } from '$lib';
 	import { buildingDictionary, buildings } from '../stores';
-
-	function sortExtensions(building) {
-		let extentions = building.extensions.sort((a, b) => a.caption.localeCompare(b.caption));
-		return extentions;
-	}
-	function sortExtensionsDictionary(building) {
-		let extentionsDictionary = $buildingDictionary[building.building_type].extensions.sort((a, b) =>
-			a.caption.localeCompare(b.caption)
-		);
-		return extentionsDictionary;
-	}
-
-	function isExtensionPurchased(building, extension) {
-		const purchasedExtensions = sortExtensions(building);
-		let purchased = false;
-		let i = 0;
-		if (purchasedExtensions.length > 0) {
-			while (i < purchasedExtensions.length) {
-				if (purchasedExtensions[i].caption == extension.caption) {
-					purchasedExtensions.shift();
-					purchased = true;
-					break;
-				}
-				i++;
-			}
-
-			return purchased;
-		}
-		return purchased;
-	}
 </script>
 
 <div class="">
@@ -73,7 +44,7 @@
 						</td>
 					{/if}
 					<td class="border-2 border-neutral p-1">
-						{#each sortExtensionsDictionary(building) as extension}
+						{#each sortExtensionsDictionary(building, $buildingDictionary) as extension}
 							{#if isExtensionPurchased(building, extension)}
 								<span class="text-success"> {extension.caption} <br /> </span>
 							{:else}

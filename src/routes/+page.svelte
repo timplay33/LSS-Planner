@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { addSepDot } from '$lib';
+
 	let show_sessionID = false;
 	$: type = show_sessionID ? 'text' : 'password';
 
@@ -14,9 +16,6 @@
 
 	function onInput(event) {
 		NewSessionID = event.target.value;
-	}
-	function addSepDot(n: number) {
-		return n.toLocaleString();
 	}
 </script>
 

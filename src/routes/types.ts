@@ -30,3 +30,31 @@ export interface BuildingDictionary {
 
     }
 }
+
+export interface VehicleDictionary {
+    [key: string]:{
+        caption: string,
+        color: string,
+        credits: number,
+        coins: number,
+        staff: {
+            min:number,
+            max: number,
+            training: Partial<object>,
+        },
+        icon: string,
+        possibleBuildings: Array<number>,
+        isTrailer: Partial<boolean>,
+        tractiveVehicles: Partial<number>,
+        waterBonus: Partial<number>,
+        special : Partial<string>,
+        waterTank:Partial<number>,
+        pumpCapacity: Partial<number>,
+        pumpType: Partial<string>,
+        minPersonnel: number,
+        maxPersonnel: number,
+        wtank: Partial<number>,
+        pumpcap: Partial<number>,
+        schooling: object,
+    }
+}

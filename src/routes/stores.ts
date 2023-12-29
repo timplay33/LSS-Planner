@@ -3,7 +3,7 @@ import { browser } from '$app/environment';
 
 import type { Building } from "@lss-manager/missionchief-type-definitions/src/api/Building";
 import type { Vehicle } from "@lss-manager/missionchief-type-definitions/src/api/Vehicle";
-import type { BuildingDictionary, User } from "./types";
+import type { BuildingDictionary, User, VehicleDictionary } from "./types";
 
 
 let storedUser:User= {session_id: "", credits: {},};
@@ -49,7 +49,7 @@ vehicles.subscribe((value) => {
     }
 });
 
-let storedVehicleDictionary: object  = {};
+let storedVehicleDictionary: VehicleDictionary  = {};
 if (browser) {
     if (localStorage.vehicleDictionary == undefined || localStorage.vehicleDictionary.length <= 2) {
         const res_vehicleDictionary= await fetch('https://api.lss-manager.de/de_DE/vehicles');

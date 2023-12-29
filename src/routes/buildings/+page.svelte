@@ -27,7 +27,11 @@
 			{#each $buildings as building}
 				<tr class="">
 					<td class="border-2 border-neutral p-1">
-						<h5 class="">{building.caption}</h5>
+						<h5 class="">
+							<a data-sveltekit-reload href="buildings/{building.id}">
+								{building.caption}
+							</a>
+						</h5>
 						<span class=" text-xs opacity-70"
 							>({#if building.small_building}
 								kleine

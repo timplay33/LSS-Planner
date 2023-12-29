@@ -5,6 +5,22 @@ export type User = {
     credits: Partial<Credits>
 }
 
+export interface ExtensionDictionary {
+    caption: string,
+    credits: number,
+    coins: number,
+    duration: string,
+    newCells: Partial<number>,
+    requiredExtensions: Partial<Array<number>>,
+    isVehicleExtension: Partial<boolean>,
+    givesParkingLots: Partial<number>,
+    unlocksVehicleTypes: Partial<Array<number>>,
+    parkingLotReservations: Partial<Array<number>>,
+    cannotDisable: Partial<boolean>,
+    unlockedVehiclesOnReservedLotsOnly: Partial<boolean>,
+
+}
+
 export interface BuildingDictionary {
     [key: string]:{
         caption: string,
@@ -15,7 +31,7 @@ export interface BuildingDictionary {
             credits: Array<number>,
             coins: Array<number>,
         },
-        extensions: Partial<Array<object>>,
+        extensions: Partial<Array<ExtensionDictionary>>,
         storageUpgrades: Partial<Object>,
         levelcost: Array<string>,
         maxBuildings: string,

@@ -8,7 +8,7 @@
 		<thead class="">
 			<th class="text-start text-2xl">Wachen</th>
 			<th>
-				<div class="flex w-24 flex-col">
+				<div class="flex w-fit flex-col">
 					<span>Personnel</span>
 					<span class=" text-xs opacity-50">count | target</span>
 				</div>

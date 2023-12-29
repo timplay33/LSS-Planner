@@ -5,16 +5,18 @@
 	$: type = show_sessionID ? 'text' : 'password';
 
 	import { vehicles, buildings, user } from './stores';
+	import type { User } from './types';
+
 	let NewSessionID = $user.session_id;
+
 	function SaveSessionID() {
-		let NewUser = $user;
+		let NewUser: User = $user;
 		NewUser.session_id = NewSessionID;
 		user.set(NewUser);
-
 		location.reload(true);
 	}
 
-	function onInput(event) {
+	function onInput(event: any) {
 		NewSessionID = event.target.value;
 	}
 </script>
@@ -31,22 +33,22 @@
 			<h3 class="text-xl">User</h3>
 			<div>
 				<p>
-					Name: {$user.credits.user_name}
+					Name: {$user.credits?.user_name || ''}
 				</p>
 				<p>
-					Credits: {#if $user.credits.credits_user_current}{addSepDot(
-							$user.credits.credits_user_current
+					Credits: {#if $user.credits?.credits_user_current}{addSepDot(
+							$user.credits?.credits_user_current
 						)}
 					{/if}
 				</p>
 				<p>
-					Total Credits: {#if $user.credits.credits_user_total}{addSepDot(
-							$user.credits.credits_user_total
+					Total Credits: {#if $user.credits?.credits_user_total}{addSepDot(
+							$user.credits?.credits_user_total
 						)}
 					{/if}
 				</p>
 				<p>
-					Level: {$user.credits.user_level_title}
+					Level: {$user.credits?.user_level_title || ''}
 				</p>
 			</div>
 		</div>

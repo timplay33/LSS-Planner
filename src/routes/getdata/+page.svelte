@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { vehicleDictionary, vehicles, buildings, buildingDictionary, user } from '../stores';
 
-	let error = null;
+	let error: string = '';
 
 	//if ($user.session_id != '') {
 	const options = {
@@ -41,7 +41,7 @@
 </script>
 
 <h2 class="text-2xl">Getting Data...</h2>
-{#if error != null}
+{#if error != ''}
 	<span class="text-error">{error}</span>
 {:else}
 	<span class="text-success">data Fetched Successfully</span>

@@ -1,15 +1,16 @@
 import { writable } from "svelte/store";
 import { browser } from '$app/environment';
 
+import type { Building } from "@lss-manager/missionchief-type-definitions/src/api/Building";
+import type { Vehicle } from "@lss-manager/missionchief-type-definitions/src/api/Vehicle";
+import type { BuildingDictionary, User, VehicleDictionary } from "./types";
 
-let storedUser= {
-    session_id: "",
-    credits: "",
-};
+
+let storedUser:User= {session_id: "", credits: {},};
 if (browser) {
     if (localStorage.user != undefined) {
-        storedUser = JSON.parse(localStorage.user);
-        if (storedUser.session_id != '' && storedUser.credits.length <=2) {
+        storedUser= JSON.parse(localStorage.user);
+        if (storedUser.session_id != '' && !storedUser.credits?.user_id) {
 			const res_credits = await fetch('/api/' + storedUser.session_id + '/credits');
 			storedUser.credits =  await res_credits.json();
        }
@@ -22,7 +23,7 @@ user.subscribe((value) => {
     }
 });
 
-let storedVehicles = {};
+let storedVehicles: Array<Vehicle> = [];
 if (browser) {
     if (localStorage.vehicles == undefined || localStorage.vehicles.length <= 2) {
         
@@ -48,11 +49,11 @@ vehicles.subscribe((value) => {
     }
 });
 
-let storedVehicleDictionary = {};
+let storedVehicleDictionary: VehicleDictionary  = {};
 if (browser) {
     if (localStorage.vehicleDictionary == undefined || localStorage.vehicleDictionary.length <= 2) {
-        const res_vehicleDictionary = await fetch('https://api.lss-manager.de/de_DE/vehicles');
-		storedVehicleDictionary = await res_vehicleDictionary.json();
+        const res_vehicleDictionary= await fetch('https://api.lss-manager.de/de_DE/vehicles');
+		storedVehicleDictionary  = await res_vehicleDictionary.json();
     }else {
         try {
             storedVehicleDictionary = JSON.parse(localStorage.vehicleDictionary);
@@ -69,7 +70,7 @@ vehicleDictionary.subscribe((value) => {
     }
 });
 
-let storedBuildings = {};
+let storedBuildings: Array<Building> = [];
 if (browser) {
     if (localStorage.buildings == undefined || localStorage.buildings.length <= 2) {
         if (storedUser.session_id != '') {
@@ -92,7 +93,7 @@ buildings.subscribe((value) => {
     }
 });
 
-let storedBuildingDictionary={};
+let storedBuildingDictionary:BuildingDictionary={};
 if (browser) {
     if (localStorage.buildingDictionary == undefined || localStorage.buildingDictionary.length <= 2 ) {
         const res_buildingDictionary = await fetch('https://api.lss-manager.de/de_DE/buildings');

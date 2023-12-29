@@ -16,9 +16,9 @@
 			{#each $vehicles as vehicle}
 				<tr class="">
 					<td class="flex items-center gap-1">
-						<h5 class="">{vehicle.caption}</h5>
+						<h5 class="">{vehicle?.caption}</h5>
 						<span class=" text-xs opacity-50"
-							>({$vehicleDictionary[vehicle.vehicle_type].caption})</span
+							>({$vehicleDictionary[vehicle?.vehicle_type]?.caption})</span
 						>
 					</td>
 					<td class="text-center"

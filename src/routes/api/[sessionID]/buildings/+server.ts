@@ -17,6 +17,5 @@ export async function GET({ params}) {
         const resJson= await res.json();
         return json(resJson);
     }catch (err) {
-        console.error(err);
-        return  new Response(err);
+        return  json([{"error": "invalid session id"}]);
 }}

@@ -25,9 +25,9 @@ user.subscribe((value) => {
 
 let storedVehicles: Array<Vehicle> = [];
 if (browser) {
-    if (localStorage.vehicles == undefined || localStorage.vehicles.length <= 2) {
+    if (localStorage.vehicles == undefined || localStorage.vehicles.length <= 32 ){
         
-        if (storedUser.session_id != '') {
+        if (storedUser.session_id != '' ) {
 			const res_vehicles = await fetch('/api/' + storedUser.session_id + '/vehicles');
 			storedVehicles =  await res_vehicles.json();
            
@@ -72,7 +72,7 @@ vehicleDictionary.subscribe((value) => {
 
 let storedBuildings: Array<Building> = [];
 if (browser) {
-    if (localStorage.buildings == undefined || localStorage.buildings.length <= 2) {
+    if (localStorage.buildings == undefined || localStorage.buildings.length <= 32) {
         if (storedUser.session_id != '') {
         const res_buildings = await fetch('/api/' + storedUser.session_id + '/buildings');
         storedBuildings = await res_buildings.json();

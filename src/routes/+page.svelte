@@ -1,81 +1,58 @@
 <script lang="ts">
 	import { addSepDot } from '$lib';
 
-	let show_sessionID = false;
-	$: type = show_sessionID ? 'text' : 'password';
-
-	import { vehicles, buildings, user } from './stores';
-	import type { User } from './types';
-
-	let NewSessionID = $user.session_id;
-
-	function SaveSessionID() {
-		let NewUser: User = $user;
-		NewUser.session_id = NewSessionID;
-		user.set(NewUser);
-		location.reload(true);
-	}
-
-	function onInput(event: any) {
-		NewSessionID = event.target.value;
-	}
+	import { vehicles, buildings, user, buildingDictionary } from './stores';
+	import Settings from './Settings.svelte';
 </script>
 
-<div class="">
-	<div class="grid">
-		<h2 class="text-2xl">Welcome to the LSS-Planner</h2>
-		<div class="m-4 w-52 border-2 border-neutral">
-			<h3 class="text-xl">Algemeine Daten</h3>
-			<p>Fahrzeuge: {$vehicles.length}</p>
-			<p>Gebäude: {$buildings.length}</p>
-		</div>
-		<div class="m-4 w-52 border-2 border-neutral">
-			<h3 class="text-xl">User</h3>
-			<div>
-				<p>
-					Name: {$user.credits?.user_name || ''}
-				</p>
-				<p>
-					Credits: {#if $user.credits?.credits_user_current}{addSepDot(
-							$user.credits?.credits_user_current
-						)}
-					{/if}
-				</p>
-				<p>
-					Total Credits: {#if $user.credits?.credits_user_total}{addSepDot(
-							$user.credits?.credits_user_total
-						)}
-					{/if}
-				</p>
-				<p>
-					Level: {$user.credits?.user_level_title || ''}
-				</p>
+{#if $user.session_id != ''}
+	<div class="">
+		<div class="grid">
+			<h2 class="text-2xl">Welcome to the LSS-Planner</h2>
+			<div class="m-4 w-52 border-2 border-neutral">
+				<h3 class="text-xl">Algemeine Daten</h3>
+				<p>Fahrzeuge: {$vehicles.length}</p>
+				<p>Gebäude: {$buildings.length}</p>
+			</div>
+			<div class="m-4 w-52 border-2 border-neutral">
+				<h3 class="text-xl">User</h3>
+				<div>
+					<p>
+						Name: {$user.credits?.user_name || ''}
+					</p>
+					<p>
+						Credits: {#if $user.credits?.credits_user_current}{addSepDot(
+								$user.credits?.credits_user_current
+							)}
+						{/if}
+					</p>
+					<p>
+						Total Credits: {#if $user.credits?.credits_user_total}{addSepDot(
+								$user.credits?.credits_user_total
+							)}
+						{/if}
+					</p>
+					<p>
+						Level: {$user.credits?.user_level_title || ''}
+					</p>
+				</div>
 			</div>
 		</div>
+		<Settings />
 	</div>
-	<div class="mt-96">
-		<h3 class="border-t-2 border-neutral text-xl">Settings</h3>
-		<ul class="m-4">
-			<li class="border-b-2 border-neutral p-2">
-				<h4>Session ID</h4>
-
-				<div class="">
-					<input
-						{type}
-						placeholder="Type your session ID here"
-						class="input input-bordered w-80"
-						value={NewSessionID}
-						on:input={onInput}
-					/><button class="btn" type="button" on:click={() => (show_sessionID = !show_sessionID)}
-						>{show_sessionID ? 'Hide' : 'Show'}</button
-					>
-					<button on:click={SaveSessionID} class="btn">Save</button>
-				</div>
-			</li>
-			<li class="border-b-2 border-neutral p-2"><a class="btn" href="/getdata">Update API</a></li>
-			<li class="border-b-2 border-neutral p-2">
-				<span>more settings soon</span>
-			</li>
-		</ul>
+{:else}
+	<div>
+		<div>
+			<h2 class="text-xl">Welcome to the LSS-Planner</h2>
+			<br />
+			<p>Let's get started by adding your session ID below in the settings.</p>
+			<p>
+				don't know what your session ID is or where to find it? <a
+					class="text-primary underline"
+					href="/">find out here!</a
+				>
+			</p>
+		</div>
+		<Settings />
 	</div>
-</div>
+{/if}

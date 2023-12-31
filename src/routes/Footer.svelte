@@ -1,4 +1,4 @@
-<footer class="footer bg-base-200 text-base-content p-10">
+<footer class="footer bg-base-200 p-10 text-base-content">
 	<aside>
 		<img
 			src="../favicon.png"
@@ -16,8 +16,13 @@
 		</p>
 	</aside>
 	<nav>
+		<header class="footer-title">More Info</header>
+		<a class="link-hover link" href="https://github.com/timplay33/lss-planner">GitHub</a>
+		<a class="link-hover link" href="https://github.com/timplay33/LSS-Planner/wiki">Wiki</a>
+	</nav>
+	<nav>
 		<header class="footer-title">Made by Tim Heidler</header>
-		<a class="link link-hover" href="https://github.com/timplay33">GitHub</a>
-		<a class="link link-hover" href="https://heidler.eu.org/about">About</a>
+		<a class="link-hover link" href="https://github.com/timplay33">GitHub</a>
+		<a class="link-hover link" href="https://heidler.eu.org/about">About</a>
 	</nav>
 </footer>

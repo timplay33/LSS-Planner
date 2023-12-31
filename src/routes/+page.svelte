@@ -49,7 +49,7 @@
 			<p>
 				don't know what your session ID is or where to find it? <a
 					class="text-primary underline"
-					href="/">find out here!</a
+					href="https://github.com/timplay33/LSS-Planner/wiki/SessionId">find it out in the wiki</a
 				>
 			</p>
 		</div>

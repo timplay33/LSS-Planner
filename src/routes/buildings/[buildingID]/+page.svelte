@@ -9,8 +9,9 @@
 	const id: number = Number(data.params.buildingID);
 	let building = liveQuery(() => db.buildings.get(id));
 
-	let building_cost = writable($buildingDictionary[$building?.building_type]?.credits);
+	let building_cost = writable(0);
 	let building_remaining_cost = writable(0);
+	console.log($building_cost);
 </script>
 
 <div>
@@ -19,7 +20,9 @@
 		<ul>
 			<li>Gebäude: {$buildingDictionary[$building?.building_type]?.caption || 0}</li>
 			<li>
-				Kosten Gebäude: {addSepDot($buildingDictionary[$building?.building_type]?.credits || 0)} ¢
+				Kosten Gebäude: {addSepDot($buildingDictionary[$building?.building_type]?.credits || 0)} ¢ {building_cost.update(
+					(n) => n + ($buildingDictionary[$building.building_type]?.credits || 0)
+				) || ''}
 			</li>
 			<li>Gesamt ausgegeben: {addSepDot($building_cost || 0)} ¢</li>
 			<li>Kosten verbleibend: {addSepDot($building_remaining_cost || 0)} ¢</li>
@@ -29,17 +32,19 @@
 				<h3 class="text-xl">Extensions</h3>
 
 				{#each sortExtensionsDictionary($building, $buildingDictionary) as extension}
-					{#if isExtensionPurchased($building, extension)}
-						<span class="text-success"> {extension?.caption} </span>
-						<span
-							>{addSepDot(extension?.credits || 0)} ¢
-							{building_cost.update((n) => n + (extension?.credits || 0)) || ''}</span
-						><br />
-					{:else}
-						<span class="text-error"> {extension?.caption || ''} </span><span
-							>{addSepDot(extension?.credits || 0)} ¢
-							{building_remaining_cost.update((n) => n + (extension?.credits || 0)) || ''}</span
-						><br />
+					{#if extension}
+						{#if isExtensionPurchased($building, extension)}
+							<span class="text-success"> {extension.caption} </span>
+							<span
+								>{addSepDot(extension.credits || 0)} ¢
+								{building_cost.update((n) => n + (extension.credits || 0)) || ''}</span
+							><br />
+						{:else}
+							<span class="text-error"> {extension.caption} </span><span
+								>{addSepDot(extension.credits || 0)} ¢
+								{building_remaining_cost.update((n) => n + (extension.credits || 0)) || ''}</span
+							><br />
+						{/if}
 					{/if}
 				{/each}
 			</div>

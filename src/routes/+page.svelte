@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { addSepDot } from '$lib';
+	import { liveQuery } from 'dexie';
+	let vehiclesCount = liveQuery(() => db.vehicles.count());
+	let buildingsCount = liveQuery(() => db.buildings.count());
 
-	import { vehicles, buildings, user, buildingDictionary } from './stores';
+	import { user, buildingDictionary } from './stores';
 	import Settings from './Settings.svelte';
+	import { db } from '$lib/db';
 </script>
 
 {#if $user.session_id != ''}
@@ -11,8 +15,8 @@
 			<h2 class="text-2xl">Welcome to the LSS-Planner</h2>
 			<div class="m-4 w-52 border-2 border-neutral">
 				<h3 class="text-xl">Algemeine Daten</h3>
-				<p>Fahrzeuge: {$vehicles.length}</p>
-				<p>Gebäude: {$buildings.length}</p>
+				<p>Fahrzeuge: {$vehiclesCount}</p>
+				<p>Gebäude: {$buildingsCount}</p>
 			</div>
 			<div class="m-4 w-52 border-2 border-neutral">
 				<h3 class="text-xl">User</h3>

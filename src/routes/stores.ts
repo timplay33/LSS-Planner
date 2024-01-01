@@ -23,32 +23,6 @@ user.subscribe((value) => {
     }
 });
 
-let storedVehicles: Array<Vehicle> = [];
-if (browser) {
-    if (localStorage.vehicles == undefined || localStorage.vehicles.length <= 32 ){
-        
-        if (storedUser.session_id != '' ) {
-			const res_vehicles = await fetch('/api/' + storedUser.session_id + '/vehicles');
-			storedVehicles =  await res_vehicles.json();
-           
-        }
-        
-    }else {
-        try {
-            storedVehicles = JSON.parse(localStorage.vehicles);
-        }
-        catch (err) {
-            localStorage.vehicles = undefined;
-        }
-} 
-}
-export const vehicles = writable(storedVehicles);
-vehicles.subscribe((value) => {
-    if (browser) {
-        localStorage.vehicles = JSON.stringify(value);
-    }
-});
-
 let storedVehicleDictionary: VehicleDictionary  = {};
 if (browser) {
     if (localStorage.vehicleDictionary == undefined || localStorage.vehicleDictionary.length <= 2) {
@@ -67,29 +41,6 @@ export const vehicleDictionary = writable(storedVehicleDictionary);
 vehicleDictionary.subscribe((value) => {
     if (browser) {
         localStorage.vehicleDictionary = JSON.stringify(value);
-    }
-});
-
-let storedBuildings: Array<Building> = [];
-if (browser) {
-    if (localStorage.buildings == undefined || localStorage.buildings.length <= 32) {
-        if (storedUser.session_id != '') {
-        const res_buildings = await fetch('/api/' + storedUser.session_id + '/buildings');
-        storedBuildings = await res_buildings.json();
-        }
-    }else {
-        try {
-            storedBuildings = JSON.parse(localStorage.buildings);
-        }
-        catch (err) {
-            localStorage.buildings = undefined;
-        }
-} 
-}
-export const buildings = writable(storedBuildings);
-buildings.subscribe((value) => {
-    if (browser) {
-        localStorage.buildings = JSON.stringify(value);
     }
 });
 

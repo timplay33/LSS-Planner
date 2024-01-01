@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { isExtensionPurchased, sortExtensionsDictionary } from '$lib';
-	import { buildingDictionary, buildings } from '../stores';
+	import { liveQuery } from 'dexie';
+	import { buildingDictionary } from '../stores';
+	import { db } from '$lib/db';
+
+	let buildings = liveQuery(() => db.buildings.orderBy('caption').toArray());
 </script>
 
 <div class="">
@@ -24,41 +28,43 @@
 			</th>
 		</thead>
 		<tbody>
-			{#each $buildings as building}
-				<tr class="">
-					<td class="border-2 border-neutral p-1">
-						<h5 class="">
-							<a data-sveltekit-reload href="buildings/{building.id}">
-								{building.caption}
-							</a>
-						</h5>
-						<span class=" text-xs opacity-70"
-							>({#if building.small_building}
-								kleine
-							{/if}{$buildingDictionary[building.building_type].caption})</span
-						>{#if !building.enabled}<span class="bg-black text-white px-1 text-sm">6</span>{/if}
-					</td>
-					{#if building.personal_count > building.personal_count_target}
-						<td class="border-2 border-neutral text-center text-warning"
-							>{building.personal_count ?? 0} | {building.personal_count_target ?? 0}
+			{#if $buildings}
+				{#each $buildings as building}
+					<tr class="">
+						<td class="border-2 border-neutral p-1">
+							<h5 class="">
+								<a data-sveltekit-reload href="buildings/{building.id}">
+									{building.caption}
+								</a>
+							</h5>
+							<span class=" text-xs opacity-70"
+								>({#if building.small_building}
+									kleine
+								{/if}{$buildingDictionary[building.building_type].caption})</span
+							>{#if !building.enabled}<span class="bg-black text-white px-1 text-sm">6</span>{/if}
 						</td>
-					{:else}
-						<td class="border-2 border-neutral text-center"
-							>{building.personal_count ?? 0} | {building.personal_count_target ?? 0}
+						{#if building.personal_count > building.personal_count_target}
+							<td class="border-2 border-neutral text-center text-warning"
+								>{building.personal_count ?? 0} | {building.personal_count_target ?? 0}
+							</td>
+						{:else}
+							<td class="border-2 border-neutral text-center"
+								>{building.personal_count ?? 0} | {building.personal_count_target ?? 0}
+							</td>
+						{/if}
+						<td class="border-2 border-neutral p-1">
+							{#each sortExtensionsDictionary(building, $buildingDictionary) as extension}
+								{#if isExtensionPurchased(building, extension)}
+									<span class="text-success"> {extension.caption} <br /> </span>
+								{:else}
+									<span class="text-error"> {extension.caption} <br /> </span>
+								{/if}
+							{/each}
 						</td>
-					{/if}
-					<td class="border-2 border-neutral p-1">
-						{#each sortExtensionsDictionary(building, $buildingDictionary) as extension}
-							{#if isExtensionPurchased(building, extension)}
-								<span class="text-success"> {extension.caption} <br /> </span>
-							{:else}
-								<span class="text-error"> {extension.caption} <br /> </span>
-							{/if}
-						{/each}
-					</td>
-					<td> </td>
-				</tr>
-			{/each}
+						<td> </td>
+					</tr>
+				{/each}
+			{/if}
 		</tbody>
 	</table>
 </div>

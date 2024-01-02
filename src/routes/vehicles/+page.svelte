@@ -6,26 +6,30 @@
 </script>
 
 <div class="">
-	<table>
+	<table class="table table-zebra">
 		<thead class="">
 			<th class="text-start text-2xl">Fahrzeuge</th>
-			<th class="flex flex-col">
+			<th class="flex flex-col items-center">
 				<span>Personnel</span>
-				<span class="w-24 text-xs opacity-50">max | assigned</span>
+				<span>max | assigned</span>
 			</th>
+			<th></th>
 		</thead>
 		<tbody>
 			{#if $vehicles && $vehicleDictionary}
 				{#each $vehicles as vehicle}
 					<tr class="">
 						<td class="flex items-center gap-1">
-							<h5 class="">{vehicle.caption}</h5>
-							<span class=" text-xs opacity-50"
+							<h5>{vehicle.caption}</h5>
+							<span class="text-xs opacity-50"
 								>({$vehicleDictionary[vehicle.vehicle_type].caption})</span
 							>
 						</td>
 						<td class="text-center"
 							>{vehicle.max_personnel_override ?? 0} | {vehicle.assigned_personnel_count ?? 0}
+						</td>
+						<td>
+							<button class="btn btn-ghost btn-xs">details</button>
 						</td>
 					</tr>
 				{/each}

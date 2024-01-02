@@ -8,11 +8,11 @@
 </script>
 
 <div class="">
-	<table>
+	<table class="table table-zebra">
 		<thead class="">
 			<th class="text-start text-2xl">Wachen</th>
 			<th>
-				<div class="flex w-fit flex-col">
+				<div class="flex flex-col items-center">
 					<span>Personnel</span>
 					<span class=" text-xs opacity-50">count | target</span>
 				</div>
@@ -26,12 +26,13 @@
 					>
 				</div>
 			</th>
+			<th></th>
 		</thead>
 		<tbody>
 			{#if $buildings && $buildingDictionary}
 				{#each $buildings as building}
 					<tr class="">
-						<td class="border-2 border-neutral p-1">
+						<td class="  p-1">
 							<h5 class="">
 								<a data-sveltekit-reload href="buildings/{building.id}">
 									{building.caption}
@@ -44,15 +45,15 @@
 							>{#if !building.enabled}<span class="bg-black text-white px-1 text-sm">6</span>{/if}
 						</td>
 						{#if building.personal_count > building.personal_count_target}
-							<td class="border-2 border-neutral text-center text-warning"
+							<td class="  text-center text-warning"
 								>{building.personal_count ?? 0} | {building.personal_count_target ?? 0}
 							</td>
 						{:else}
-							<td class="border-2 border-neutral text-center"
+							<td class="  text-center"
 								>{building.personal_count ?? 0} | {building.personal_count_target ?? 0}
 							</td>
 						{/if}
-						<td class="border-2 border-neutral p-1">
+						<td class="  p-1">
 							{#each sortExtensionsDictionary(building, $buildingDictionary) as extension}
 								{#if extension}
 									{#if isExtensionPurchased(building, extension)}
@@ -63,7 +64,11 @@
 								{/if}
 							{/each}
 						</td>
-						<td> </td>
+						<td>
+							<a class="btn btn-ghost btn-xs" data-sveltekit-reload href="buildings/{building.id}"
+								>details</a
+							>
+						</td>
 					</tr>
 				{/each}
 			{/if}

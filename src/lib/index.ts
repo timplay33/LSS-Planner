@@ -11,7 +11,7 @@ export function sortExtensions(building: Building) {
     let extentions:Array<Extension> = building.extensions.sort((a, b) => a.caption.localeCompare(b.caption));
     return extentions;
 }
-export function sortExtensionsDictionary(building: Building , buildingDictionary: BuildingDictionary) {
+export function sortExtensionsDictionary(building: Building , buildingDictionary: Array<BuildingDictionary>) {
     let extentionsDictionary : Array<ExtensionDictionary> 
     if(building?.building_type != undefined && buildingDictionary[0].extensions != undefined) {
         extentionsDictionary = buildingDictionary[building.building_type].extensions.sort((a, b) =>

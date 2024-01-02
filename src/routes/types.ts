@@ -1,8 +1,7 @@
-import type { Credits } from "@lss-manager/missionchief-type-definitions/src/api/Credits";
+
 
 export type User = {
     session_id: string;
-    credits: Partial<Credits>
 }
 
 export interface ExtensionDictionary {
@@ -22,7 +21,6 @@ export interface ExtensionDictionary {
 }
 
 export interface BuildingDictionary {
-    [key: string]:{
         caption: string,
         color: string,
         coins: number,
@@ -44,11 +42,10 @@ export interface BuildingDictionary {
         schools: Array<number>,
         icon: string,
 
-    }
+    
 }
 
 export interface VehicleDictionary {
-    [key: string]:{
         caption: string,
         color: string,
         credits: number,
@@ -72,5 +69,5 @@ export interface VehicleDictionary {
         wtank: Partial<number>,
         pumpcap: Partial<number>,
         schooling: object,
-    }
+    
 }

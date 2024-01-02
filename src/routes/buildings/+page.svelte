@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { isExtensionPurchased, sortExtensionsDictionary } from '$lib';
 	import { liveQuery } from 'dexie';
-	import { buildingDictionary } from '../stores';
 	import { db } from '$lib/db';
 
 	let buildings = liveQuery(() => db.buildings.orderBy('caption').toArray());
+	let buildingDictionary = liveQuery(() => db.buildingDictionary.toArray());
 </script>
 
 <div class="">
@@ -28,7 +28,7 @@
 			</th>
 		</thead>
 		<tbody>
-			{#if $buildings}
+			{#if $buildings && $buildingDictionary}
 				{#each $buildings as building}
 					<tr class="">
 						<td class="border-2 border-neutral p-1">
@@ -54,10 +54,12 @@
 						{/if}
 						<td class="border-2 border-neutral p-1">
 							{#each sortExtensionsDictionary(building, $buildingDictionary) as extension}
-								{#if isExtensionPurchased(building, extension)}
-									<span class="text-success"> {extension.caption} <br /> </span>
-								{:else}
-									<span class="text-error"> {extension.caption} <br /> </span>
+								{#if extension}
+									{#if isExtensionPurchased(building, extension)}
+										<span class="text-success"> {extension.caption} <br /> </span>
+									{:else}
+										<span class="text-error"> {extension.caption} <br /> </span>
+									{/if}
 								{/if}
 							{/each}
 						</td>

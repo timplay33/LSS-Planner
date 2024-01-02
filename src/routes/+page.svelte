@@ -4,59 +4,51 @@
 	let vehiclesCount = liveQuery(() => db.vehicles.count());
 	let buildingsCount = liveQuery(() => db.buildings.count());
 
-	import { user, buildingDictionary } from './stores';
+	import { user, credits } from './stores';
 	import Settings from './Settings.svelte';
 	import { db } from '$lib/db';
 </script>
 
-{#if $user.session_id != ''}
-	<div class="">
-		<div class="grid">
-			<h2 class="text-2xl">Welcome to the LSS-Planner</h2>
-			<div class="m-4 w-52 border-2 border-neutral">
-				<h3 class="text-xl">Algemeine Daten</h3>
-				<p>Fahrzeuge: {$vehiclesCount}</p>
-				<p>Gebäude: {$buildingsCount}</p>
+<div class="">
+	<div class="grid">
+		<h2 class="text-2xl">Welcome to the LSS-Planner</h2>
+		{#if $user && $user.session_id == ''}
+			<div>
+				<br />
+				<p>Let's get started by adding your session ID below in the settings.</p>
+				<p>
+					don't know what your session ID is or where to find it? <a
+						class="text-primary underline"
+						href="https://github.com/timplay33/LSS-Planner/wiki/SessionId"
+						>find it out in the wiki</a
+					>
+				</p>
 			</div>
+		{/if}
+		<div class="m-4 w-52 border-2 border-neutral">
+			<h3 class="text-xl">Algemeine Daten</h3>
+			<p>Fahrzeuge: {$vehiclesCount}</p>
+			<p>Gebäude: {$buildingsCount}</p>
+		</div>
+		{#if !$credits?.error && $credits}
 			<div class="m-4 w-52 border-2 border-neutral">
 				<h3 class="text-xl">User</h3>
 				<div>
 					<p>
-						Name: {$user.credits?.user_name || ''}
+						Name: {$credits.user_name}
 					</p>
 					<p>
-						Credits: {#if $user.credits?.credits_user_current}{addSepDot(
-								$user.credits?.credits_user_current
-							)}
-						{/if}
+						Credits: {addSepDot($credits.credits_user_current)}
 					</p>
 					<p>
-						Total Credits: {#if $user.credits?.credits_user_total}{addSepDot(
-								$user.credits?.credits_user_total
-							)}
-						{/if}
+						Total Credits: {addSepDot($credits.credits_user_total)}
 					</p>
 					<p>
-						Level: {$user.credits?.user_level_title || ''}
+						Level: {$credits.user_level_title}
 					</p>
 				</div>
 			</div>
-		</div>
-		<Settings />
+		{/if}
 	</div>
-{:else}
-	<div>
-		<div>
-			<h2 class="text-xl">Welcome to the LSS-Planner</h2>
-			<br />
-			<p>Let's get started by adding your session ID below in the settings.</p>
-			<p>
-				don't know what your session ID is or where to find it? <a
-					class="text-primary underline"
-					href="https://github.com/timplay33/LSS-Planner/wiki/SessionId">find it out in the wiki</a
-				>
-			</p>
-		</div>
-		<Settings />
-	</div>
-{/if}
+	<Settings />
+</div>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { vehicleDictionary, buildingDictionary, user } from '../stores';
+	import { user } from '../stores';
 	import { db } from '$lib/db';
 
 	let error: string = '';
@@ -14,13 +14,21 @@
 	};
 
 	onMount(async () => {
+		await db.vehicleDictionary.clear();
 		const res_vehicleDictionary = await fetch('https://api.lss-manager.de/de_DE/vehicles');
 		const new_vehicleDictionary = await res_vehicleDictionary.json();
-		vehicleDictionary.set(new_vehicleDictionary);
+		var vehicleDictionaryArray = Object.keys(new_vehicleDictionary).map(
+			(key) => new_vehicleDictionary[key]
+		);
+		await db.vehicleDictionary.bulkAdd(vehicleDictionaryArray);
 
+		await db.buildingDictionary.clear();
 		const res_buildingDictionary = await fetch('https://api.lss-manager.de/de_DE/buildings');
 		const new_buildingDictionary = await res_buildingDictionary.json();
-		buildingDictionary.set(new_buildingDictionary);
+		var buildingDictionaryArray = Object.keys(new_buildingDictionary).map(
+			(key) => new_buildingDictionary[key]
+		);
+		await db.buildingDictionary.bulkAdd(buildingDictionaryArray);
 
 		if ($user.session_id != '') {
 			let new_user = $user;

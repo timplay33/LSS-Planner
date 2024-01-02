@@ -1,7 +1,7 @@
 <script>
 	import { liveQuery } from 'dexie';
 	let vehicles = liveQuery(() => db.vehicles.orderBy('caption').toArray());
-	import { vehicleDictionary } from '../stores';
+	let vehicleDictionary = liveQuery(() => db.vehicleDictionary.toArray());
 	import { db } from '$lib/db';
 </script>
 
@@ -15,7 +15,7 @@
 			</th>
 		</thead>
 		<tbody>
-			{#if $vehicles}
+			{#if $vehicles && $vehicleDictionary}
 				{#each $vehicles as vehicle}
 					<tr class="">
 						<td class="flex items-center gap-1">

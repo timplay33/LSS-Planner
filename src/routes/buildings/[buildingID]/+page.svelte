@@ -23,7 +23,9 @@
 			<button class="btn btn-ghost" on:click={getBack}>&larr;</button>
 			<h2 class="text-2xl">{$building.caption}</h2>
 			<span class="text-lg opacity-50"
-				>({$buildingDictionary[$building.building_type].caption})</span
+				>({#if $building.small_building}
+					kleine
+				{/if}{$buildingDictionary[$building.building_type].caption})</span
 			>
 		</div>
 		<table class="table table-zebra w-fit">

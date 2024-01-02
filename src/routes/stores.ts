@@ -38,10 +38,6 @@ let storedCredits:Credits = {
 if (browser) {
     if (localStorage.credits != undefined) {
         storedCredits= JSON.parse(localStorage.credits);
-        if (storedUser.session_id != '') {
-			const res_credits = await fetch('/api/' + storedUser.session_id + '/credits');
-			storedCredits =  await res_credits.json();
-       }
     }   
 }
 export const credits = writable(storedCredits);

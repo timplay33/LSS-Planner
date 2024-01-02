@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { credits, user } from './stores';
 	import type { User } from './types';
 
@@ -11,7 +12,7 @@
 		let NewUser: User = $user;
 		NewUser.session_id = NewSessionID;
 		user.set(NewUser);
-		location.reload(true);
+		goto('/getdata');
 	}
 
 	function onInput(event) {

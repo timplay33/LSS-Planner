@@ -56,6 +56,9 @@
 	});
 </script>
 
+<div id="options" class="flex w-full justify-between">
+	<a class="btn btn-ghost" href="/">&larr;</a>
+</div>
 <h2 class="text-2xl">Getting Data...</h2>
 {#if error != ''}
 	<span class="text-error">{error}</span>

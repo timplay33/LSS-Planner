@@ -5,6 +5,7 @@
 
 	let buildings = liveQuery(() => db.buildings.orderBy('caption').toArray());
 	let buildingDictionary = liveQuery(() => db.buildingDictionary.toArray());
+	let vehicles = liveQuery(() => db.vehicles.orderBy('caption').toArray());
 </script>
 
 <div class="">
@@ -17,8 +18,9 @@
 					<span class=" text-xs opacity-50">count | target</span>
 				</div>
 			</th>
+			<th> Vehicles </th>
 			<th>
-				<div class="flex flex-col items-center">
+				<div class="flex flex-col">
 					<span>extensions</span>
 					<span class=" text-xs opacity-50"
 						><span class="text-success">bought</span> |
@@ -53,6 +55,11 @@
 								>{building.personal_count ?? 0} | {building.personal_count_target ?? 0}
 							</td>
 						{/if}
+						<td
+							>{#if $vehicles}
+								{$vehicles.filter((vehicle) => vehicle.building_id == building.id).length}
+							{/if}</td
+						>
 						<td class="  p-1">
 							{#each sortExtensionsDictionary(building, $buildingDictionary) as extension}
 								{#if extension}

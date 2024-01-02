@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { user } from '../stores';
+	import { credits, user } from '../stores';
 	import { db } from '$lib/db';
 
 	let error: string = '';
@@ -20,6 +20,9 @@
 		var vehicleDictionaryArray = Object.keys(new_vehicleDictionary).map(
 			(key) => new_vehicleDictionary[key]
 		);
+		vehicleDictionaryArray.forEach((item, i) => {
+			item.id = i + 1;
+		});
 		await db.vehicleDictionary.bulkAdd(vehicleDictionaryArray);
 
 		await db.buildingDictionary.clear();
@@ -28,13 +31,15 @@
 		var buildingDictionaryArray = Object.keys(new_buildingDictionary).map(
 			(key) => new_buildingDictionary[key]
 		);
+		buildingDictionaryArray.forEach((item, i) => {
+			item.id = i + 1;
+		});
 		await db.buildingDictionary.bulkAdd(buildingDictionaryArray);
 
 		if ($user.session_id != '') {
-			let new_user = $user;
 			const res_credits = await fetch('/api/' + $user.session_id + '/credits');
-			new_user.credits = await res_credits.json();
-			user.set(new_user);
+			const new_credits = await res_credits.json();
+			credits.set(new_credits);
 
 			await db.vehicles.clear();
 			const res_vehicles = await fetch('/api/' + $user.session_id + '/vehicles');

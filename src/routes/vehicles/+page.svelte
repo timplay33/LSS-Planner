@@ -1,11 +1,30 @@
 <script>
 	import { liveQuery } from 'dexie';
-	let vehicles = liveQuery(() => db.vehicles.orderBy('caption').toArray());
-	let vehicleDictionary = liveQuery(() => db.vehicleDictionary.toArray());
 	import { db } from '$lib/db';
+
+	let search = '';
+
+	$: vehicles = liveQuery(() =>
+		db.vehicles
+			.orderBy('caption')
+			.filter((vehicle) => vehicle.caption.toLocaleLowerCase().includes(search.toLocaleLowerCase()))
+			.toArray()
+	);
+	let vehicleDictionary = liveQuery(() => db.vehicleDictionary.toArray());
 </script>
 
 <div class="">
+	<div id="options" class="flex w-full justify-between">
+		<a class="btn btn-ghost" href="/">&larr;</a>
+		<input
+			type="search"
+			name="search"
+			id="search"
+			placeholder="search"
+			class="input input-bordered w-full max-w-xs"
+			bind:value={search}
+		/>
+	</div>
 	<table class="table table-zebra">
 		<thead class="">
 			<th class="text-start text-2xl">Fahrzeuge</th>

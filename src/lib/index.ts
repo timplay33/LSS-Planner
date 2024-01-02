@@ -6,6 +6,10 @@ export function addSepDot(n: number) {
     return n.toLocaleString();
 }
 
+export function getBack() {
+    history.back();
+}
+
 
 export function sortExtensions(building: Building) {
     let extentions:Array<Extension> = building.extensions.sort((a, b) => a.caption.localeCompare(b.caption));

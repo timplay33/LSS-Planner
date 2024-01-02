@@ -3,12 +3,32 @@
 	import { liveQuery } from 'dexie';
 	import { db } from '$lib/db';
 
-	let buildings = liveQuery(() => db.buildings.orderBy('caption').toArray());
+	let search = '';
+
+	$: buildings = liveQuery(() =>
+		db.buildings
+			.orderBy('caption')
+			.filter((building) =>
+				building.caption.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+			)
+			.toArray()
+	);
 	let buildingDictionary = liveQuery(() => db.buildingDictionary.toArray());
 	let vehicles = liveQuery(() => db.vehicles.orderBy('caption').toArray());
 </script>
 
 <div class="">
+	<div id="options" class="flex w-full justify-between">
+		<a class="btn btn-ghost" href="/">&larr;</a>
+		<input
+			type="search"
+			name="search"
+			id="search"
+			placeholder="search"
+			class="input input-bordered w-full max-w-xs"
+			bind:value={search}
+		/>
+	</div>
 	<table class="table table-zebra">
 		<thead class="">
 			<th class="text-start text-2xl">Wachen</th>
@@ -38,13 +58,16 @@
 							<h5 class="">
 								<a data-sveltekit-reload href="buildings/{building.id}">
 									{building.caption}
+									{#if !building.enabled}
+										<span class="opacity-30">status:</span>
+										<span class="bg-b-fms-6 px-1 text-sm text-t-fms-6">6</span>{/if}
 								</a>
 							</h5>
 							<span class=" text-xs opacity-70"
 								>({#if building.small_building}
 									kleine
 								{/if}{$buildingDictionary[building.building_type].caption})</span
-							>{#if !building.enabled}<span class="bg-black text-white px-1 text-sm">6</span>{/if}
+							>
 						</td>
 						{#if building.personal_count > building.personal_count_target}
 							<td class="  text-center text-warning"

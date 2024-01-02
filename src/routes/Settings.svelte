@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { user } from './stores';
+	import { credits, user } from './stores';
 	import type { User } from './types';
 
 	let show_sessionID = false;
@@ -27,7 +27,7 @@
 
 			<div class="">
 				{#if $user.session_id != ''}
-					{#if !$user.credits?.user_name}
+					{#if !$credits?.user_name}
 						<span class="text-warning">make shure your session ID is correct</span><br />
 					{/if}
 				{/if}

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { vehicleDictionary, vehicles, buildings, buildingDictionary, user } from '../stores';
+	import { user } from '../stores';
+	import { db } from '$lib/db';
 
 	let error: string = '';
 
@@ -13,13 +14,21 @@
 	};
 
 	onMount(async () => {
+		await db.vehicleDictionary.clear();
 		const res_vehicleDictionary = await fetch('https://api.lss-manager.de/de_DE/vehicles');
 		const new_vehicleDictionary = await res_vehicleDictionary.json();
-		vehicleDictionary.set(new_vehicleDictionary);
+		var vehicleDictionaryArray = Object.keys(new_vehicleDictionary).map(
+			(key) => new_vehicleDictionary[key]
+		);
+		await db.vehicleDictionary.bulkAdd(vehicleDictionaryArray);
 
+		await db.buildingDictionary.clear();
 		const res_buildingDictionary = await fetch('https://api.lss-manager.de/de_DE/buildings');
 		const new_buildingDictionary = await res_buildingDictionary.json();
-		buildingDictionary.set(new_buildingDictionary);
+		var buildingDictionaryArray = Object.keys(new_buildingDictionary).map(
+			(key) => new_buildingDictionary[key]
+		);
+		await db.buildingDictionary.bulkAdd(buildingDictionaryArray);
 
 		if ($user.session_id != '') {
 			let new_user = $user;
@@ -27,13 +36,15 @@
 			new_user.credits = await res_credits.json();
 			user.set(new_user);
 
+			await db.vehicles.clear();
 			const res_vehicles = await fetch('/api/' + $user.session_id + '/vehicles');
 			const new_vehicles = await res_vehicles.json();
-			vehicles.set(new_vehicles);
+			await db.vehicles.bulkAdd(new_vehicles);
 
+			await db.buildings.clear();
 			const res_buildings = await fetch('/api/' + $user.session_id + '/buildings');
 			const new_buildings = await res_buildings.json();
-			buildings.set(new_buildings);
+			await db.buildings.bulkAdd(new_buildings);
 		} else {
 			error = 'error: Please provide a session ID before fetching data.';
 		}

@@ -2,13 +2,16 @@
 	import '../app.pcss';
 	import Header from './Header.svelte';
 	import Footer from './Footer.svelte';
-	import { buildingDictionary } from './stores';
+	import { liveQuery } from 'dexie';
+	import { db } from '$lib/db';
+
+	let buildingDictionary = liveQuery(() => db.buildingDictionary.toArray());
 </script>
 
 <Header />
 
 <div class="mx-4 min-h-screen">
-	{#if $buildingDictionary[0]?.caption != null}
+	{#if $buildingDictionary}
 		<slot />
 	{:else}
 		<div>Loading...</div>

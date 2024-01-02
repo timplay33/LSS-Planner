@@ -3,6 +3,7 @@
 	import { liveQuery } from 'dexie';
 	import { db } from '$lib/db';
 
+	let buildingsCount = liveQuery(() => db.buildings.count());
 	let search = '';
 
 	$: buildings = liveQuery(() =>
@@ -18,8 +19,13 @@
 </script>
 
 <div class="">
-	<div id="options" class="flex w-full justify-between">
+	<div id="options" class="flex w-full justify-between gap-2">
 		<a class="btn btn-ghost" href="/">&larr;</a>
+		{#if $buildings}
+			<span class="flex w-full items-center justify-end align-middle"
+				>{$buildings.length} von {$buildingsCount}</span
+			>
+		{/if}
 		<input
 			type="search"
 			name="search"

@@ -3,6 +3,7 @@
 	import { db } from '$lib/db';
 
 	let search = '';
+	let vehiclesCount = liveQuery(() => db.vehicles.count());
 
 	$: vehicles = liveQuery(() =>
 		db.vehicles
@@ -14,8 +15,13 @@
 </script>
 
 <div class="">
-	<div id="options" class="flex w-full justify-between">
+	<div id="options" class="flex w-full justify-between gap-2">
 		<a class="btn btn-ghost" href="/">&larr;</a>
+		{#if $vehicles}
+			<span class="flex w-full items-center justify-end align-middle"
+				>{$vehicles.length} von {$vehiclesCount}</span
+			>
+		{/if}
 		<input
 			type="search"
 			name="search"

@@ -71,3 +71,28 @@ export interface VehicleDictionary {
         schooling: object,
     
 }
+
+/** Plan */
+
+interface ExtensionPlan {
+    caption: string;
+    available: boolean;
+    enabled: boolean;
+    type_id: number;
+}
+export interface BuildingPlan {
+    id?: number
+    building_id : number | null,
+    level: number,
+    building_type: number,
+    caption: string,
+    address?: string,
+    latitude?: number,
+    longitude?: number,
+    extensions: ExtensionPlan[],
+    leitstelle_building_id: number | null,
+    leitstelle_building_id_plan: number | null,
+    small_building: boolean,
+    personal_count_target: number,
+
+}

@@ -6,6 +6,7 @@
 	</div>
 	<div class="flex-none">
 		<ul class="menu menu-horizontal px-1">
+			<li><a data-sveltekit-reload class="text-lg" href="/plan">Plan</a></li>
 			<li><a data-sveltekit-reload class="text-lg" href="/vehicles">Fahrzeuge</a></li>
 			<li><a data-sveltekit-reload class="text-lg" href="/buildings">Gebäude</a></li>
 		</ul>

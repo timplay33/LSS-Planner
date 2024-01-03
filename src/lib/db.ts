@@ -1,7 +1,7 @@
 import type { Building } from '@lss-manager/missionchief-type-definitions/src/api/Building';
 import type { Vehicle } from '@lss-manager/missionchief-type-definitions/src/api/Vehicle';
 import Dexie, { type Table } from 'dexie';
-import type { BuildingDictionary, VehicleDictionary } from '../routes/types';
+import type { BuildingDictionary, BuildingPlan, VehicleDictionary } from '../routes/types';
 
 
 export class MySubClassedDexie extends Dexie {
@@ -11,6 +11,7 @@ export class MySubClassedDexie extends Dexie {
   buildings!: Table<Building>;
   vehicleDictionary!: Table<VehicleDictionary>;
   buildingDictionary!: Table<BuildingDictionary>;
+  buildingPlan!: Table<BuildingPlan>;
 
   constructor() {
     super('LSSPlannerDB');
@@ -19,6 +20,7 @@ export class MySubClassedDexie extends Dexie {
         buildings: '++id, caption, hiring_phase, leitstelle_building_id, building_type, enabled, small_building, hiring_automatic ',
         vehicleDictionary: '++id',
         buildingDictionary: '++id',
+        buildingPlan: "++id, building_id, caption,  leitstelle_building_id, leitstelle_building_id_plan, building_type, small_building",
     });
   }
 }

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { db } from '$lib/db';
 	import { credits, user } from './stores';
 	import type { User } from './types';
 
@@ -13,6 +14,19 @@
 		NewUser.session_id = NewSessionID;
 		user.set(NewUser);
 		goto('/getdata');
+	}
+
+	function delAllPlans() {
+		if (confirm('Are you sure you want to delete all PLANS?')) {
+			db.buildingPlan.clear();
+			alert('All plans deleted');
+		}
+	}
+	function delAllData() {
+		if (confirm('Are you sure you want to delete all DATA?')) {
+			db.delete();
+			alert('All Data deleted');
+		}
 	}
 
 	function onInput(event) {
@@ -49,6 +63,12 @@
 			<a class="btn" href="/getdata">Update API</a>
 		</li>
 		<li class="border-b-2 border-neutral p-2">
+			<button class="btn" on:click={delAllPlans}>Delete all Plans</button>
+		</li>
+		<li class="border-b-2 border-neutral p-2">
+			<button class="btn" on:click={delAllData}>Delete all Data</button>
+		</li>
+		<li class="p-2">
 			<span>more settings soon</span>
 		</li>
 	</ul>

@@ -1,0 +1,153 @@
+[
+    {
+    "id": 1000007,
+    "personal_count": 43,
+    "level": 5,
+    "building_type": 2,
+    "caption": "Rettungswache 1",
+    "latitude": 0,
+    "longitude": 0,
+    "extensions": [],
+    "storage_upgrades": [],
+    "leitstelle_building_id": 1000010,
+    "small_building": false,
+    "enabled": true,
+    "personal_count_target": 80,
+    "hiring_phase": 0,
+    "hiring_automatic": true,
+    "complex_type": "building",
+    "generates_mission_categories": [
+      "ambulance"
+    ]
+  },
+
+  {
+    "id": 1000010,
+    "personal_count": 0,
+    "level": 0,
+    "building_type": 7,
+    "caption": "Leitstelle 1",
+    "latitude": 0,
+    "longitude": 0,
+    "extensions": [],
+    "storage_upgrades": [],
+    "leitstelle_building_id": null,
+    "small_building": false,
+    "enabled": true,
+    "personal_count_target": 0,
+    "hiring_phase": 0,
+    "hiring_automatic": false,
+    "generate_own_missions": false,
+    "complex_type": "building",
+    "generates_mission_categories": []
+  },
+
+  {
+    "id": 1000011,
+    "personal_count": 86,
+    "level": 3,
+    "building_type": 0,
+    "caption": "Feuerwache 1",
+    "latitude": 0,
+    "longitude": 0,
+    "extensions": [
+      {
+        "caption": "Großwache",
+        "available": true,
+        "enabled": true,
+        "type_id": 9
+      },
+      {
+        "caption": "Abrollbehälter-Stellplatz",
+        "available": true,
+        "enabled": true,
+        "type_id": 2
+      },
+      {
+        "caption": "Werkfeuerwehr",
+        "available": true,
+        "enabled": true,
+        "type_id": 13
+      },
+      {
+        "caption": "Abrollbehälter-Stellplatz",
+        "available": true,
+        "enabled": true,
+        "type_id": 1
+      },
+      {
+        "caption": "Abrollbehälter-Stellplatz",
+        "available": true,
+        "enabled": true,
+        "type_id": 3
+      },
+      {
+        "caption": "Abrollbehälter-Stellplatz",
+        "available": true,
+        "enabled": true,
+        "type_id": 4
+      },
+      {
+        "caption": "Netzersatzanlage 200",
+        "available": true,
+        "enabled": true,
+        "type_id": 15
+      },
+      {
+        "caption": "Drohneneinheit",
+        "available": true,
+        "enabled": true,
+        "type_id": 18
+      }
+    ],
+    "storage_upgrades": [
+      {
+        "upgrade_type": "Lagerraum",
+        "available": true,
+        "type_id": "initial_containers"
+      },
+      {
+        "upgrade_type": "Zusätzlicher Lagerraum",
+        "available": true,
+        "type_id": "additional_containers_1"
+      },
+      {
+        "upgrade_type": "Zusätzlicher Lagerraum",
+        "available": true,
+        "type_id": "additional_containers_4"
+      },
+      {
+        "upgrade_type": "Zusätzlicher Lagerraum",
+        "available": true,
+        "type_id": "additional_containers_2"
+      },
+      {
+        "upgrade_type": "Zusätzlicher Lagerraum",
+        "available": true,
+        "type_id": "additional_containers_3"
+      },
+      {
+        "upgrade_type": "Zusätzlicher Lagerraum",
+        "available": true,
+        "type_id": "additional_containers_5"
+      }
+    ],
+    "leitstelle_building_id": 1000010,
+    "small_building": false,
+    "enabled": true,
+    "personal_count_target": 250,
+    "hiring_phase": 0,
+    "hiring_automatic": true,
+    "complex_type": "building",
+    "specialization": {
+      "caption": "Werkfeuerwehr-Spezialisierung",
+      "type": "factory_fire_brigade",
+      "active": true,
+      "available": true
+    },
+    "generates_mission_categories": [
+      "factory_fire_brigade",
+      "factory_fire_brigade_specialization"
+    ]
+  }
+]

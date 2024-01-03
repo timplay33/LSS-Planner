@@ -1,11 +1,18 @@
 <script lang="ts">
-	import { addSepDot, getBack, isExtensionPurchased, sortExtensionsDictionary } from '$lib';
+	import {
+		addSepDot,
+		calcExtensionCost,
+		calcLevelCost,
+		calcRemainingExtensionCost,
+		calcRemainingLevelCost,
+		calcVehicleCost,
+		getBack,
+		isExtensionPurchased,
+		sortExtensionsDictionary
+	} from '$lib';
 	import { writable, type Writable } from 'svelte/store';
 	import { db } from '$lib/db';
 	import { liveQuery } from 'dexie';
-	import type { Building } from '@lss-manager/missionchief-type-definitions/src/api/Building.js';
-	import type { Vehicle } from '@lss-manager/missionchief-type-definitions/src/api/Vehicle.js';
-	import type { BuildingDictionary, ExtensionDictionary, VehicleDictionary } from '../../types.js';
 
 	export let data;
 	const id: number = Number(data.params.buildingID);
@@ -21,78 +28,12 @@
 	let level_cost: Writable<number> = writable(0);
 	let level_remaining_cost: Writable<number> = writable(0);
 
-	function calcLevelCost(local_building: Building, local_buildingDictionary: BuildingDictionary[]) {
-		let level = local_building.level;
-		if (level != 0) {
-			for (let i = 1; i <= level; i++) {
-				$level_cost +=
-					local_buildingDictionary[local_building.building_type].levelPrices.credits[i];
-			}
-		}
-	}
-
-	function calcRemainingLevelCost(
-		local_building: Building,
-		local_buildingDictionary: BuildingDictionary[]
-	) {
-		let level = local_building.level;
-		let dictLevel = local_buildingDictionary[local_building.building_type].maxLevel - 1;
-		if (level != 0 && dictLevel != 0) {
-			for (let i = level; i <= dictLevel; i++) {
-				$level_remaining_cost +=
-					local_buildingDictionary[local_building.building_type].levelPrices.credits[i];
-			}
-		}
-	}
-
-	function calcExtensionCost(
-		local_building: Building,
-		local_buildingDictionary: BuildingDictionary[]
-	) {
-		for (let extension of sortExtensionsDictionary(local_building, local_buildingDictionary)) {
-			if (isExtensionPurchased(local_building, extension)) {
-				$extension_cost += local_buildingDictionary[local_building.building_type].extensions.filter(
-					(e: ExtensionDictionary) => e?.caption == extension.caption
-				)[0].credits;
-			}
-		}
-	}
-
-	function calcRemainingExtensionCost(
-		local_building: Building,
-		local_buildingDictionary: BuildingDictionary[]
-	) {
-		for (let extension of sortExtensionsDictionary(local_building, local_buildingDictionary)) {
-			if (!isExtensionPurchased(local_building, extension)) {
-				$extension_remaining_cost += local_buildingDictionary[
-					local_building.building_type
-				].extensions.filter((e: ExtensionDictionary) => e?.caption == extension.caption)[0].credits;
-			}
-		}
-	}
-
-	function calcVehicleCost(
-		local_vehicles: Vehicle[],
-		local_vehicleDictionary: VehicleDictionary[]
-	) {
-		if (local_vehicles.length == 0) {
-			return 0;
-		} else if (local_vehicles.length == 1) {
-			let vehicle = local_vehicles[0];
-			$vehicle_cost += local_vehicleDictionary[vehicle.vehicle_type].credits;
-		} else {
-			for (let vehicle of local_vehicles) {
-				$vehicle_cost += local_vehicleDictionary[vehicle.vehicle_type].credits;
-			}
-		}
-	}
-
 	$: if ($building && $buildingDictionary && $vehicles && $vehicleDictionary) {
-		calcLevelCost($building, $buildingDictionary);
-		calcRemainingLevelCost($building, $buildingDictionary);
-		calcExtensionCost($building, $buildingDictionary);
-		calcRemainingExtensionCost($building, $buildingDictionary);
-		calcVehicleCost($vehicles, $vehicleDictionary);
+		$level_cost = calcLevelCost($building, $buildingDictionary);
+		$level_remaining_cost = calcRemainingLevelCost($building, $buildingDictionary);
+		$extension_cost = calcExtensionCost($building, $buildingDictionary);
+		$extension_remaining_cost = calcRemainingExtensionCost($building, $buildingDictionary);
+		$vehicle_cost = calcVehicleCost($vehicles, $vehicleDictionary);
 	}
 </script>
 

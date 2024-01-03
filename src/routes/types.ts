@@ -29,7 +29,7 @@ export interface BuildingDictionary {
             credits: Array<number>,
             coins: Array<number>,
         },
-        extensions: Partial<Array<ExtensionDictionary>>,
+        extensions: Array<ExtensionDictionary>,
         storageUpgrades: Partial<Object>,
         levelcost: Array<string>,
         maxBuildings: string,

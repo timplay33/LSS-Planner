@@ -27,7 +27,7 @@ export function sortExtensionsDictionary(building: Building , buildingDictionary
 };
 
 export function isExtensionPurchased(building : Building, extension: ExtensionDictionary) {
-    const purchasedExtensions = sortExtensions(building);
+    const purchasedExtensions =[...sortExtensions(building)]
     let purchased: boolean = false;
     let i: number = 0;
     if (purchasedExtensions.length > 0) {
@@ -39,7 +39,6 @@ export function isExtensionPurchased(building : Building, extension: ExtensionDi
             }
             i++;
         }
-
         return purchased;
     }
     return purchased;

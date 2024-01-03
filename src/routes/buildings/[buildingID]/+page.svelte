@@ -4,6 +4,8 @@
 	import { db } from '$lib/db';
 	import { liveQuery } from 'dexie';
 	import type { Building } from '@lss-manager/missionchief-type-definitions/src/api/Building.js';
+	import type { Vehicle } from '@lss-manager/missionchief-type-definitions/src/api/Vehicle.js';
+	import type { BuildingDictionary, ExtensionDictionary, VehicleDictionary } from '../../types.js';
 
 	export let data;
 	const id: number = Number(data.params.buildingID);
@@ -15,22 +17,63 @@
 
 	let extension_cost = writable(0);
 	let vehicle_cost = writable(0);
-	let building_remaining_cost = writable(0);
-	let level_cost = 0;
+	let extension_remaining_cost = writable(0);
+	let level_cost = writable(0);
 
-	$: if ($building && $buildingDictionary) {
-		function calLevelCost(local_building: Building) {
-			let level_cost: number = 0;
-			let level = local_building.level;
-			if (level != 0) {
-				for (let i = 1; i <= level; i++) {
-					level_cost += $buildingDictionary[local_building.building_type].levelPrices.credits[i];
-				}
+	function calLevelCost(local_building: Building, local_buildingDictionary: BuildingDictionary[]) {
+		let level = local_building.level;
+		if (level != 0) {
+			for (let i = 1; i <= level; i++) {
+				$level_cost +=
+					local_buildingDictionary[local_building.building_type].levelPrices.credits[i];
 			}
-			return level_cost;
 		}
+	}
 
-		level_cost = calLevelCost($building);
+	function calExtensionCost(
+		local_building: Building,
+		local_buildingDictionary: BuildingDictionary[]
+	) {
+		for (let extension of sortExtensionsDictionary(local_building, local_buildingDictionary)) {
+			if (isExtensionPurchased(local_building, extension)) {
+				$extension_cost += local_buildingDictionary[local_building.building_type].extensions.filter(
+					(e: ExtensionDictionary) => e?.caption == extension.caption
+				)[0].credits;
+			}
+		}
+	}
+
+	function calRemainingExtensionCost(
+		local_building: Building,
+		local_buildingDictionary: BuildingDictionary[]
+	) {
+		for (let extension of sortExtensionsDictionary(local_building, local_buildingDictionary)) {
+			if (!isExtensionPurchased(local_building, extension)) {
+				$extension_remaining_cost += local_buildingDictionary[
+					local_building.building_type
+				].extensions.filter((e: ExtensionDictionary) => e?.caption == extension.caption)[0].credits;
+			}
+		}
+	}
+
+	function calVehicleCost(local_vehicles: Vehicle[], local_vehicleDictionary: VehicleDictionary[]) {
+		if (local_vehicles.length == 0) {
+			return 0;
+		} else if (local_vehicles.length == 1) {
+			let vehicle = local_vehicles[0];
+			$vehicle_cost += local_vehicleDictionary[vehicle.vehicle_type].credits;
+		} else {
+			for (let vehicle of local_vehicles) {
+				$vehicle_cost += local_vehicleDictionary[vehicle.vehicle_type].credits;
+			}
+		}
+	}
+
+	$: if ($building && $buildingDictionary && $vehicles && $vehicleDictionary) {
+		calRemainingExtensionCost($building, $buildingDictionary);
+		calLevelCost($building, $buildingDictionary);
+		calExtensionCost($building, $buildingDictionary);
+		calVehicleCost($vehicles, $vehicleDictionary);
 	}
 </script>
 
@@ -53,14 +96,14 @@
 						{addSepDot($buildingDictionary[$building.building_type].credits)} ¢</td
 					>
 				</tr>
-				<tr><td>Level Kosten</td> <td> + </td><td>{addSepDot(level_cost)} ¢</td></tr>
+				<tr><td>Level Kosten</td> <td> + </td><td>{addSepDot($level_cost)} ¢</td></tr>
 				<tr><td>Erweiterungs Kosten</td> <td> + </td><td>{addSepDot($extension_cost)} ¢</td></tr>
 				<tr><td>Fahrzeug Kosten</td><td> + </td><td> {addSepDot($vehicle_cost)} ¢</td></tr>
 				<tr
 					><td> Gesamt ausgegeben</td><td> = </td><td class="underline"
 						>{addSepDot(
 							$buildingDictionary[$building.building_type].credits +
-								level_cost +
+								$level_cost +
 								$extension_cost +
 								$vehicle_cost
 						)} ¢</td
@@ -68,7 +111,7 @@
 				</tr>
 				<tr
 					><td>Erweiterungs Kosten verbleibend</td><td> </td>
-					<td>{addSepDot($building_remaining_cost)} ¢</td></tr
+					<td>{addSepDot($extension_remaining_cost)} ¢</td></tr
 				>
 			</tbody>
 		</table>
@@ -85,22 +128,11 @@
 								<tr>
 									{#if extension}
 										{#if isExtensionPurchased($building, extension)}
-											<td> <span class="text-success"> {extension.caption} </span></td>
-											<td
-												><span
-													>{addSepDot(extension.credits || 0)} ¢
-													{extension_cost.update((n) => n + (extension.credits || 0)) || ''}</span
-												></td
-											>
+											<td><span class="text-success">{extension.caption}</span></td>
+											<td><span>{addSepDot(extension.credits || 0)} ¢</span></td>
 										{:else}
 											<td><span class="text-error"> {extension.caption} </span></td>
-											<td
-												><span
-													>{addSepDot(extension.credits || 0)} ¢
-													{building_remaining_cost.update((n) => n + (extension.credits || 0)) ||
-														''}</span
-												></td
-											>
+											<td><span>{addSepDot(extension.credits || 0)} ¢</span></td>
 										{/if}
 									{/if}
 								</tr>
@@ -123,26 +155,22 @@
 					<th class="text-center">cost</th>
 				</thead>
 				<tbody>
-					{#if $vehicles && $vehicleDictionary}
-						{#each $vehicles as vehicle}
-							<tr class="">
-								<td class="flex items-center gap-1">
-									<h5>{vehicle.caption}</h5>
-									<span class="text-xs opacity-50"
-										>({$vehicleDictionary[vehicle.vehicle_type].caption})</span
-									>
-								</td>
-								<td class="text-center"
-									>{vehicle.max_personnel_override ?? 0} | {vehicle.assigned_personnel_count ?? 0}
-								</td>
-								<td>
-									{addSepDot($vehicleDictionary[vehicle.vehicle_type].credits)} ¢ {vehicle_cost.update(
-										(n) => n + ($vehicleDictionary[vehicle.vehicle_type].credits || 0)
-									) || ''}
-								</td>
-							</tr>
-						{/each}
-					{/if}
+					{#each $vehicles as vehicle}
+						<tr class="">
+							<td class="flex items-center gap-1">
+								<h5>{vehicle.caption}</h5>
+								<span class="text-xs opacity-50"
+									>({$vehicleDictionary[vehicle.vehicle_type].caption})</span
+								>
+							</td>
+							<td class="text-center"
+								>{vehicle.max_personnel_override ?? 0} | {vehicle.assigned_personnel_count ?? 0}
+							</td>
+							<td>
+								{addSepDot($vehicleDictionary[vehicle.vehicle_type].credits)} ¢
+							</td>
+						</tr>
+					{/each}
 				</tbody>
 			</table>
 		</div>

@@ -23,6 +23,7 @@
 						>find it out in the wiki</a
 					>
 				</p>
+				<p>if you just want to try the Planner you man enter 0 as the session ID to get a demo</p>
 			</div>
 		{/if}
 		<div class="m-4 w-52 border-2 border-neutral">

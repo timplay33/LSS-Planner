@@ -3,6 +3,7 @@
 	import { writable } from 'svelte/store';
 	import { db } from '$lib/db';
 	import { liveQuery } from 'dexie';
+	import type { Building } from '@lss-manager/missionchief-type-definitions/src/api/Building.js';
 
 	export let data;
 	const id: number = Number(data.params.buildingID);
@@ -15,6 +16,22 @@
 	let extension_cost = writable(0);
 	let vehicle_cost = writable(0);
 	let building_remaining_cost = writable(0);
+	let level_cost = 0;
+
+	$: if ($building && $buildingDictionary) {
+		function calLevelCost(local_building: Building) {
+			let level_cost: number = 0;
+			let level = local_building.level;
+			if (level != 0) {
+				for (let i = 1; i <= level; i++) {
+					level_cost += $buildingDictionary[local_building.building_type].levelPrices.credits[i];
+				}
+			}
+			return level_cost;
+		}
+
+		level_cost = calLevelCost($building);
+	}
 </script>
 
 <div>
@@ -32,16 +49,20 @@
 			<thead><th><h3 class="text-xl">Kosten</h3></th> <th></th> <th></th></thead>
 			<tbody>
 				<tr
-					><td> Kosten Gebäude</td><td> </td><td>
+					><td>Gebäude Kosten</td><td> </td><td>
 						{addSepDot($buildingDictionary[$building.building_type].credits)} ¢</td
 					>
 				</tr>
+				<tr><td>Level Kosten</td> <td> + </td><td>{addSepDot(level_cost)} ¢</td></tr>
 				<tr><td>Erweiterungs Kosten</td> <td> + </td><td>{addSepDot($extension_cost)} ¢</td></tr>
 				<tr><td>Fahrzeug Kosten</td><td> + </td><td> {addSepDot($vehicle_cost)} ¢</td></tr>
 				<tr
 					><td> Gesamt ausgegeben</td><td> = </td><td class="underline"
 						>{addSepDot(
-							$buildingDictionary[$building.building_type].credits + $extension_cost + $vehicle_cost
+							$buildingDictionary[$building.building_type].credits +
+								level_cost +
+								$extension_cost +
+								$vehicle_cost
 						)} ¢</td
 					>
 				</tr>

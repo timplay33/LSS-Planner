@@ -39,6 +39,7 @@
 	"type": "module",
 	"dependencies": {
 		"@lss-manager/missionchief-type-definitions": "^0.0.3",
+		"@sentry/sveltekit": "^7.91.0",
 		"@supabase/supabase-js": "^2.39.1",
 		"dexie": "4.0.1-beta.6"
 	}

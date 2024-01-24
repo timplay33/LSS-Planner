@@ -72,7 +72,7 @@
 							<span class=" text-xs opacity-70"
 								>({#if building.small_building}
 									kleine
-								{/if}{$buildingDictionary[building.building_type].caption})</span
+								{/if}{$buildingDictionary[building.building_type]?.caption})</span
 							>
 						</td>
 						{#if building.personal_count > building.personal_count_target}
